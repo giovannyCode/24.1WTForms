@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+  <h1 class="display-1 text-center">{{pet.name}}</h1>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      {% if pet.photo_url %}
+          <img class="img-fluid" src="{{ pet.photo_url }}">
+       {% endif %}
+       <h2>Update</h2>
+      <form id="pet-add-form" method="POST" action="/pet/{{pet.id}}/edit">
+         {{form.hidden_tag()}}
+         {% for field in form  if field.widget.input_type != 'hidden' %}
+         
+            {% if field.type =='BooleanField' %}
+             <div class= "form-check">
+              {{ field.label }}
+              {{ field(class_="form-check-input") }}
+            {% else %}
+            <div class="form-group">
+              {{ field.label }}
+              {{ field(class_="form-control") }}
+          {% endif %}
+              
+            {% for error in field.errors %}
+          <small class="form-text text-danger">  {{ error }}</small>
+             
+            {% endfor %}
+          </div>
+       {% endfor %}
+      <br>
+      <button class="btn btn-success btn-lg" type="submit">Submit</button>
+      <a href="/" class="btn btn-primary btn-lg">Go back</a>
+      </form>
+    </div>
+    </div>
+    
+
+  </div>
+</div>
+
+
+{% endblock %}
